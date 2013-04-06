@@ -8,3 +8,6 @@
 /app/bootstrap*
 /app/logs/*
 /app/config/parameters.yml
+web/uploads/*
+app/config/parameters.ini
+app/config/parameters.yml
