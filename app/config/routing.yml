@@ -1,0 +1,4 @@
+hack_blue_scroll_and_tell:
+    resource: "@HackBlueScrollAndTellBundle/Resources/config/routing.yml"
+    prefix:   /
+

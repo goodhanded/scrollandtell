@@ -1,0 +1,7 @@
+parameters:
+#    hack_blue_scroll_and_tell.example.class: HackBlue\ScrollAndTellBundle\Example
+
+services:
+#    hack_blue_scroll_and_tell.example:
+#        class: %hack_blue_scroll_and_tell.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]
