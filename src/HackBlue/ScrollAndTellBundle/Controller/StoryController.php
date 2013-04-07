@@ -13,23 +13,23 @@ class StoryController extends Controller
 {
     public function createAction()
     {
-        $dm = $this->get('doctrine_mongodb')->getManager();
+        // $dm = $this->get('doctrine_mongodb')->getManager();
 
-        $form = $this->createForm(new StoryType(), new Story());
-        $form->bindRequest($this->getRequest());
+        // $form = $this->createForm(new StoryType(), new Story());
+        // $form->bindRequest($this->getRequest());
 
-        $story = $form->getStory();
+        // $story = $form->getStory();
 
-        $dm->persist($story);
-        $dm->flush();
+        // $dm->persist($story);
+        // $dm->flush();
 
-        return $this->redirect($this->generateUrl('start'));
+        return $this->redirect($this->generateUrl('story_edit'));
             
     }
 
-    public function editAction($storyId)
+    public function editAction() //Add $storyId parameter later
     {
-        return $this->render('HackBlueScrollAndTellBundle:Default:index.html.twig', array('name' => $name));
+        return $this->render('HackBlueScrollAndTellBundle:Story:edit.html.twig');//, array('name' => $name));
     }
 
     public function previewAction($storyId)

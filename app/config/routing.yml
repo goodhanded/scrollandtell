@@ -9,3 +9,7 @@ start:
 story_create:
     pattern:    /story/create
     defaults: { _controller: HackBlueScrollAndTellBundle:Story:create }
+
+story_create:
+    pattern:    /story/edit
+    defaults: { _controller: HackBlueScrollAndTellBundle:Story:edit }

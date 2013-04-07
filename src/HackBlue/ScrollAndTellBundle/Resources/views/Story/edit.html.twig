@@ -1,0 +1,155 @@
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>TOOLS</title>
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.2/themes/smoothness/jquery-ui.css" />
+<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+<script src="http://code.jquery.com/ui/1.10.2/jquery-ui.js"></script>
+<script type="text/javascript" src="https://www.dropbox.com/static/api/1/dropbox.js" id="dropboxjs" data-app-key="glcsfnm2vhcyfo3"></script>
+<style>
+	.draggable { width: 12em; padding: 0 1em; position: absolute; top: 160px; left: 280px; }
+	.draggable ul li { margin: 1em 0; padding: 0.5em 0; position: absolute;} * html .draggable ul li { height: 1%; }
+	.draggable ul li span.ui-icon { float: left; }
+	.draggable ul li span.count { font-weight: bold; }
+	body {width: 100%; position: relative;}
+	.scene {margin: 150px 200px 200px; width: 800px; height: 400px; background: aqua; position: relative;}
+	button {position: fixed; top: 30px; left: 60px;}
+	button.image {position: fixed; top: 30px; left: inherit; right: 60px;}
+	.slideme {position: fixed; top: 33px; left: 200px; width: 800px;}
+	.ui-resizable-helper {border: 2px dotted #00F;}
+	label[for="opaque"], label[for="rotate"] {position: fixed; bottom: 30px;}
+	label[for="opaque"] {left: 60px;}
+	label[for="rotate"] {right: 60px;}
+	label>span.ui-spinner {margin-left: 5px; margin-top: -3px;}
+	input.spinner {width: 35px; background-color: silver;}
+</style>
+<script>
+	$(function()
+	{ 
+		$('button.add').click(function()
+		{
+			//add scene
+			$('<div id="scene-'+Math.ceil(Math.random()*200)+'" class="scene"></div>').insertAfter('#'+$('.scene').last().attr('id'));
+			//scroll to it
+			$("html, body").animate({ scrollTop: $('#'+$('.scene').last().attr('id')).height() + $(window).height() }, 800);
+		});
+		
+		$('button.image').click(function()
+		{
+			//add image
+			var $element = $("<div id='image-"+Math.ceil(Math.random()*200)+
+			"' class='ui-widget ui-widget-content draggable'><p>Go ahead, drag me! <br />Location: <span class='x'>280px</span> <span class='y'>160px</span></p></div>");
+			
+			//append it to the DOM
+			$('#'+$('.scene').last().attr('id')).append($element);
+			
+			//make it "draggable" and "resizable"
+			$element.draggable({
+				stop: function() {
+				$(this).find(".y").text($(this).css('top'));
+				$(this).find(".x").text($(this).css('left'));
+				}
+			}).resizable({
+				helper: "ui-resizable-helper"
+			});
+			$('#opaque').spinner('value', '100');
+			$('#rotate').spinner('value', '0');
+		});
+		
+		$("#slider").slider(
+		{
+			min: 300,
+			max: 800,
+			step: 20,
+			value: 400,
+			slide: handleSliderChange
+		});
+		function handleSliderChange(event, slider){
+			$('#'+$('.scene').last().attr('id')).css('height', slider.value + 'px');
+			/* $("#scene-1").text(slider.value + 'px'); */
+		}
+				
+		$( "#opaque.spinner" ).spinner(
+		{
+			step: 5,
+			spin: function( event, ui )
+			{
+				if ( ui.value > 100 )
+				{
+					$( this ).spinner( "value", 0 );
+					return false;
+				}
+				else if ( ui.value < 0 )
+				{
+					$( this ).spinner( "value", 100 );
+					return false;
+				}
+				$('#'+$('.draggable').last().attr('id')).css('opacity',ui.value/100);
+			}
+		});
+		
+		$( "#rotate.spinner" ).spinner(
+		{
+			step: 15,
+			spin: function( event, ui )
+			{
+				if ( ui.value > 360 )
+				{
+					$( this ).spinner( "value", 0 );
+					return false;
+				}
+				else if ( ui.value < 0 )
+				{
+					$( this ).spinner( "value", 360 );
+					return false;
+				}
+
+				var rotateCSS = 'rotate(' + ui.value + 'deg)';
+				$('#'+$('.draggable').last().attr('id')).css({
+					'-moz-transform': rotateCSS,
+					'-webkit-transform': rotateCSS
+				});
+			}
+		});
+
+	});
+</script>
+</head>
+<body>
+	
+	<div class="controls">
+		<div class="new"><button class="add">New Slide</button></div>
+		<input type="dropbox-chooser" name="selected-file" id="db-chooser" data-link-type="direct" />
+<!-- 		<div class="new"><button class="image">New Image</button></div>-->
+		<div id="slider" class="slideme"></div>
+		<label for="opaque">Opacity<input id="opaque" class="spinner" name="value" value="100" /></label>
+		<label for="rotate">Rotation<input id="rotate" class="spinner" name="value" value="0" /></label>
+	</div>
+	
+	<div id="scene-1" class="scene"></div>
+	<script type="text/javascript">
+        document.getElementById("db-chooser").addEventListener("DbxChooserSuccess",
+            function(e) {
+                //alert("Here's the chosen file: " + e.files[0].link)
+                			//add image
+			var $element = $("<img id='image-"+Math.ceil(Math.random()*200)+
+			"' class='ui-widget ui-widget-content draggable' src='"+e.files[0].link+"' width='200px' height='200px' />");
+			
+			//append it to the DOM
+			$('#'+$('.scene').last().attr('id')).append($element);
+			
+			//make it "draggable" and "resizable"
+			$element.draggable({
+				stop: function() {
+				//$(this).find(".y").text($(this).css('top'));
+				//$(this).find(".x").text($(this).css('left'));
+				}
+			}).resizable({
+				helper: "ui-resizable-helper"
+			});
+			$('#opaque').spinner('value', '100');
+			$('#rotate').spinner('value', '0');
+            }, false);
+    </script>
+</body>
+</html>
