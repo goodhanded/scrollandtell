@@ -1,4 +1,11 @@
 hack_blue_scroll_and_tell:
     resource: "@HackBlueScrollAndTellBundle/Resources/config/routing.yml"
-    prefix:   /
+    prefix: /
 
+start:
+    pattern:    /
+    defaults: { _controller: HackBlueScrollAndTellBundle:Default:start }
+
+story_create:
+    pattern:    /story/create
+    defaults: { _controller: HackBlueScrollAndTellBundle:Story:create }
