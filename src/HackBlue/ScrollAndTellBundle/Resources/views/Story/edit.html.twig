@@ -7,13 +7,12 @@
 <script src="http://code.jquery.com/ui/1.10.2/jquery-ui.js"></script>
 <script type="text/javascript" src="https://www.dropbox.com/static/api/1/dropbox.js" id="dropboxjs" data-app-key="glcsfnm2vhcyfo3"></script>
 <style>
-	.draggable { width: 12em; padding: 0 1em; position: absolute; top: 160px; left: 280px; }
-	.draggable ul li { margin: 1em 0; padding: 0.5em 0; position: absolute;} * html .draggable ul li { height: 1%; }
-	.draggable ul li span.ui-icon { float: left; }
-	.draggable ul li span.count { font-weight: bold; }
+	.draggable {display: block; width: 12em; padding: 0 1em; position: absolute; top: 160px; left: 280px;}
+	.draggable>img {width: 100%;}
 	body {width: 100%; position: relative;}
-	.scene {margin: 150px 200px 200px; width: 800px; height: 400px; background: aqua; position: relative;}
-	button {position: fixed; top: 30px; left: 60px;}
+	.scene {margin: 150px 200px 200px; width: 800px; height: 400px; background-color: #56A0D3; position: relative;}
+	button, .dropbox-chooser {position: fixed; top: 30px; left: 60px;}
+	.dropbox-chooser {top: 80px; right: 60px; left: inherit;}
 	button.image {position: fixed; top: 30px; left: inherit; right: 60px;}
 	.slideme {position: fixed; top: 33px; left: 200px; width: 800px;}
 	.ui-resizable-helper {border: 2px dotted #00F;}
@@ -120,7 +119,7 @@
 	<div class="controls">
 		<div class="new"><button class="add">New Slide</button></div>
 		<input type="dropbox-chooser" name="selected-file" id="db-chooser" data-link-type="direct" />
-<!-- 		<div class="new"><button class="image">New Image</button></div>-->
+ 		<div class="new"><button class="image">New Image</button></div>
 		<div id="slider" class="slideme"></div>
 		<label for="opaque">Opacity<input id="opaque" class="spinner" name="value" value="100" /></label>
 		<label for="rotate">Rotation<input id="rotate" class="spinner" name="value" value="0" /></label>
@@ -132,8 +131,7 @@
             function(e) {
                 //alert("Here's the chosen file: " + e.files[0].link)
                 			//add image
-			var $element = $("<img id='image-"+Math.ceil(Math.random()*200)+
-			"' class='ui-widget ui-widget-content draggable' src='"+e.files[0].link+"' width='200px' height='200px' />");
+			var $element = $("<div id='image-"+Math.ceil(Math.random()*200)+"' class='ui-widget ui-widget-content draggable'><img src='"+e.files[0].link+"' /></div>");
 			
 			//append it to the DOM
 			$('#'+$('.scene').last().attr('id')).append($element);
