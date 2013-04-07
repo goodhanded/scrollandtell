@@ -11,12 +11,13 @@ class DefaultController extends Controller
 {
     public function indexAction($name)
     {
+
         return $this->render('HackBlueScrollAndTellBundle:Default:index.html.twig', array('name' => $name));
     }
 
     public function startAction()
     {
-    	$story = new Story();
+        $story = new Story();
         $story->setName('My New Scrollorama');
 
         $form = $this->createFormBuilder($story)
